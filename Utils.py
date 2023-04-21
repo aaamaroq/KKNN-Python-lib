@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from colorama import Fore
 
 def export_to_csv(data, filename):
@@ -25,6 +26,23 @@ def import_from_csv(filename):
         exit(1)
 
     return data
+
+def getDataSets():
+    path="dataset/"
+    data = {}
+
+    if not os.listdir(path):
+        print(Fore.RED + "Error: No hay ningún dataset para cargar.")
+        exit(1)
+
+    for foldername in os.listdir(path):
+        folderpath = os.path.join(path, foldername)
+        if os.path.isdir(folderpath):
+            data_csv = import_from_csv('data.csv')
+            target_csv =  import_from_csv(folderpath, 'target.csv')
+            data[foldername] = (data_csv, target_csv)
+    return data
+
 
 # Ejemplo de uso con el dataset Iris
 #from sklearn.datasets import load_iris
