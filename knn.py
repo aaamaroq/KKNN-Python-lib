@@ -1,6 +1,18 @@
+from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
 import os
 from colorama import Fore
+
+
+def getKnn(datos_entrenamiento, etiquetas_entrenamiento, k):
+    # Creamos el objeto clasificador KNN con el valor de k especificado
+    knn = KNeighborsClassifier(n_neighbors=k)
+    # Entrenamos el clasificador KNN con los datos de entrenamiento
+    knn.fit(datos_entrenamiento, etiquetas_entrenamiento)
+
+    #devolvemos el modelo ya entrenado
+    return knn
+
 
 def export_to_csv(data, filename):
     """
@@ -29,19 +41,19 @@ def import_from_csv(filename):
 
 def getDataSets():
     path="dataset/"
-    data = {}
+    datasets = {}
 
     if not os.listdir(path):
-        print(Fore.RED + "Error: No hay ningún dataset para cargar.")
+        print(Fore.RED + "Error: No hay ningún dataset para cargar." )
         exit(1)
 
     for foldername in os.listdir(path):
         folderpath = os.path.join(path, foldername)
         if os.path.isdir(folderpath):
-            data_csv = import_from_csv('data.csv')
-            target_csv =  import_from_csv(folderpath, 'target.csv')
-            data[foldername] = (data_csv, target_csv)
-    return data
+            data = import_from_csv(folderpath + '/data.csv')
+            target =  import_from_csv(folderpath + '/target.csv')
+            datasets[foldername] = (data, target)
+    return datasets
 
 
 # Ejemplo de uso con el dataset Iris
@@ -60,4 +72,6 @@ def getDataSets():
 
 # Importar iris.data desde un archivo CSV
 #data = import_from_csv("iris_data.csv")
+
+
 
