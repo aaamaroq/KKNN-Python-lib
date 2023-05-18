@@ -1,4 +1,5 @@
 from knn import *
+import pytest
 
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -31,3 +32,7 @@ def test_prediccion():
             print("PRECISIÓN: "+str(precision))
             assert precision > 0.9
 
+
+
+if __name__ == "__main__":
+    pytest.main()
