@@ -4,9 +4,9 @@ import os
 from colorama import Fore
 
 
-def getKnn(datos_entrenamiento, etiquetas_entrenamiento, k):
+def getKnn(datos_entrenamiento, etiquetas_entrenamiento, k, metric='manhattan'):
     # Creamos el objeto clasificador KNN con el valor de k especificado
-    knn = KNeighborsClassifier(n_neighbors=k)
+    knn = KNeighborsClassifier(n_neighbors=k, metric=metric)
     # Entrenamos el clasificador KNN con los datos de entrenamiento
     knn.fit(datos_entrenamiento, etiquetas_entrenamiento)
 
@@ -40,7 +40,7 @@ def import_from_csv(filename):
     return data
 
 def getDataSets():
-    path="dataset/"
+    path= os.path.abspath("./dataset")
     datasets = {}
 
     if not os.listdir(path):
