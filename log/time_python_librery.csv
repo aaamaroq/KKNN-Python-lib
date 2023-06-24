@@ -1,0 +1,3 @@
+Dataset,Tiempo de ejecución,Cumple assert
+Breast Cancer Wisconsin dataset,0.0022232532501220703,True
+Iris,0.0010132789611816406,True

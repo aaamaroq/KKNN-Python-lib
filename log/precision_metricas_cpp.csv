@@ -1,0 +1,4 @@
+Metrica,k,Precision
+Euclidiana,3,0.766667
+Manhattan,3,0.766667
+Chebyshov,3,0.766667
