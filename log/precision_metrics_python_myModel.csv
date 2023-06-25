@@ -1,0 +1,5 @@
+Metric,Precision
+euclidean,1.0
+manhattan,1.0
+minkowski,1.0
+chebyshev,1.0

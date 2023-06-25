@@ -1,0 +1,4 @@
+Metrica,k,Precision
+Euclidean,3,0.9333333333333333
+Manhattan,3,0.9
+Chebyshev,3,0.9666666666666667
