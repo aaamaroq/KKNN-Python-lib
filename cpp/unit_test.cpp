@@ -39,6 +39,8 @@ double calcularPrecision(const vector<PuntoDatos>& entrenamiento, const vector<P
 }
 
 
+
+
 void test_K_values() {
     // Obtenemos los dataset
     auto datasets = cargarTodosLosDataset();
@@ -71,6 +73,7 @@ void test_K_values() {
         std::cerr << "Dataset " << nombreDatasetBuscado << " no encontrado." << std::endl;
     }
 }
+
 
 void test_Performance_test() {
     auto datasets = cargarTodosLosDataset();

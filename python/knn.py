@@ -128,7 +128,7 @@ class MyKNeighborsClassifier:
         distances = []
         for i in range(self.X_train.shape[0]):
             if self.metric == 'euclidean':
-                print(self.X_train[i] - x)
+                print(self.X_train[i])
                 distance = np.sqrt(np.sum((self.X_train[i] - x) ** 2))  # Distancia Euclidiana
             elif self.metric == 'manhattan':
                 distance = np.sum(np.abs(self.X_train[i] - x))  # Distancia Manhattan

@@ -19,18 +19,27 @@ struct PuntoDatos {
 
 class Distancia {
 public:
-    virtual double calcularDistancia(PuntoDatos p1, PuntoDatos p2) = 0;
+    virtual void calcularDistancia(const vector<PuntoDatos>& puntosEntrenamiento,const PuntoDatos& puntoY,vector<pair<double, int>>& distancias) = 0;
 };
 
 class DistanciaEuclidiana : public Distancia {
 public:
-    double calcularDistancia(PuntoDatos p1, PuntoDatos p2) override {
-        double sumaCuadrados = 0.0;
-        for (size_t i = 0; i < p1.datos.size(); ++i) {
-            double diff = p1.datos[i] - p2.datos[i];
-            sumaCuadrados += diff * diff;
+    void calcularDistancia(const vector<PuntoDatos>& puntosEntrenamiento,const PuntoDatos& puntoY,vector<pair<double, int>>& distancias) override {
+
+        double distancia = 0;
+        for (const auto& puntoX : puntosEntrenamiento) {
+            //Para cada vector de cada punto obtengo sus distancais
+            double sumaCuadrados = 0.0;
+            for (size_t i = 0; i < puntoX.datos.size(); ++i) {
+                double diff = puntoX.datos[i] - puntoY.datos[i];
+                sumaCuadrados += diff * diff;
+            }
+            distancia = sqrt(sumaCuadrados);
+            distancias.push_back(make_pair(distancia, puntoX.etiqueta));
         }
-        return sqrt(sumaCuadrados);
+
+
+       
     }
 };
 
@@ -39,53 +48,67 @@ public:
 
 class DistanciaMinkowski : public Distancia {
 public:
-    double calcularDistancia(PuntoDatos p1, PuntoDatos p2) override {
-        double sumaPotencias = 0.0;
-        int p = 3;
-        for (size_t i = 0; i < p1.datos.size(); ++i) {
-            sumaPotencias += pow(abs(p1.datos[i] - p2.datos[i]), p);
-        }
-        return pow(sumaPotencias, 1.0 / p);
+    void calcularDistancia(const vector<PuntoDatos>& puntosEntrenamiento,const PuntoDatos& puntoY,vector<pair<double, int>>& distancias) override {
+ 
+        double distancia = 0.0;
+        for (const auto& puntoX : puntosEntrenamiento) {
+            //Para cada vector de cada punto obtengo sus distancais
+            double sumaPotencias = 0.0;
+            int p = 3;
+            for (size_t i = 0; i < puntoX.datos.size(); ++i) {
+                sumaPotencias += pow(abs(puntoX.datos[i] - puntoY.datos[i]), p);
+            }
+            distancia = pow(sumaPotencias, 1.0 / p);
+            distancias.push_back(make_pair(distancia, puntoX.etiqueta));
+         }
     }
 };
 
 class DistanciaChebyshev : public Distancia {
 public:
-    double calcularDistancia(PuntoDatos p1, PuntoDatos p2) override {
-        double maximo = 0.0;
-        for (size_t i = 0; i < p1.datos.size(); ++i) {
-            double diff = abs(p1.datos[i] - p2.datos[i]);
-            if (diff > maximo) {
-                maximo = diff;
+    void calcularDistancia(const vector<PuntoDatos>& puntosEntrenamiento,const PuntoDatos& puntoY,vector<pair<double, int>>& distancias) override {
+
+        double distancia = 0.0;
+        for (const auto& puntoX : puntosEntrenamiento) {
+            //Para cada vector de cada punto obtengo sus distancais
+            double maximo = 0.0;
+            for (size_t i = 0; i < puntoX.datos.size(); ++i) {
+                double diff = abs(puntoX.datos[i] - puntoY.datos[i]);
+                if (diff > maximo) {
+                    maximo = diff;
+                }
             }
-        }
-        return maximo;
+            distancia = maximo;
+            distancias.push_back(make_pair(distancia, puntoX.etiqueta));
+         }
     }
 };
 
 
 class DistanciaManhattan : public Distancia {
 public:
-    double calcularDistancia(PuntoDatos p1, PuntoDatos p2) override {
-        double sumaDistancias = 0.0;
-        for (size_t i = 0; i < p1.datos.size(); ++i) {
-            sumaDistancias += abs(p1.datos[i] - p2.datos[i]);
-        }
-        return sumaDistancias;
+    void calcularDistancia(const vector<PuntoDatos>& puntosEntrenamiento,const PuntoDatos& puntoY,vector<pair<double, int>>& distancias) override {
+        double distancia = 0.0;
+        for (const auto& puntoX : puntosEntrenamiento) {
+            //Para cada vector de cada punto obtengo sus distancais
+            double sumaDistancias = 0.0;
+            for (size_t i = 0; i < puntoX.datos.size(); ++i) {
+                sumaDistancias += abs(puntoX.datos[i] - puntoY.datos[i]);
+            }
+            distancia = sumaDistancias;
+            distancias.push_back(make_pair(distancia, puntoX.etiqueta));
+         }
     }
 };
 
 // Función para clasificar un punto en función de sus vecinos más cercanos
-int clasificarPunto(const vector<PuntoDatos>& conjuntoDatos, PuntoDatos punto, int k, Distancia& metrica) {
+int clasificarPunto(const vector<PuntoDatos>& puntosEntrenamiento, PuntoDatos punto, int k, Distancia& metrica) {
     vector<pair<double, int>> distancias;
     
     // Calcular las distancias entre el punto y todos los puntos del conjunto de datos
-    for (const auto& dato : conjuntoDatos) {
-        double distancia = metrica.calcularDistancia(punto, dato);
-        distancias.push_back(make_pair(distancia, dato.etiqueta));
-    }
+    metrica.calcularDistancia(puntosEntrenamiento,punto,distancias);
     
-    // Ordenar las distancias de menor a mayor
+    // Ordenar las distancias de menor a mayor junto a sus etiquetas
     sort(distancias.begin(), distancias.end());
     
     // Contar las etiquetas de los k vecinos más cercanos
@@ -103,7 +126,7 @@ int clasificarPunto(const vector<PuntoDatos>& conjuntoDatos, PuntoDatos punto, i
             etiquetaMasComun = par.first;
         }
     }
-    
+
     return etiquetaMasComun;
 }
 
