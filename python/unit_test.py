@@ -34,7 +34,7 @@ class TestGetknn:
     
     # Prueba que la función getKnn devuelve un modelo KNN entrenado con entradas válidas, incluido el valor especificado de k y la métrica de distancia.
     @pytest.mark.parametrize("model",["librery","myModel"])
-    def test_getKnn_validInputs(self,model):
+    def test_get_knn_valid_inputs(self,model):
         # Obtenemos todos los dataset
         datasets = getDataSets()
         k=3
@@ -61,7 +61,7 @@ class TestGetknn:
 
     # Prueba la funcionalidad básica de la función getKnn entrenando un modelo KNN en el conjunto de datos de Iris y evaluando su precisión.
     @pytest.mark.parametrize("model",["librery","myModel"])
-    def test_Basic_functionality_(self,model):
+    def test_basic_functionality(self,model):
         # Obtenemos el dataset Iris
         from sklearn.datasets import load_iris
         iris = load_iris()
@@ -83,7 +83,7 @@ class TestGetknn:
 
     # Pruebe con el conjunto de datos más pequeño posible y verifique que el algoritmo pueda manejar estos casos especiales correctamente.
     @pytest.mark.parametrize("model",["librery","myModel"])
-    def test_SmallestDataset(self,model):
+    def test_smallest_dataset(self,model):
         # Obtener el conjunto de datos más pequeño
         datos = [[1, 2], [3, 4], [5, 6]]
         etiquetas = [0, 1, 0]
@@ -102,7 +102,7 @@ class TestGetknn:
 
     # Para un conjunto de datos de prueba específico, verifique si los vecinos más cercanos devueltos son de hecho los puntos más cercanos según la métrica de distancia elegida.
     @pytest.mark.parametrize("model",["librery","myModel"])
-    def test_Nearest_neighbors_validity_(self,model):
+    def test_nearest_neighbors_validity(self,model):
         # Obtenemos todos los dataset
         datasets = getDataSets()
         k=3
@@ -140,7 +140,7 @@ class TestGetknn:
 
     # Pruebe el algoritmo con diferentes valores de k y verifique si la precisión cambian como se esperaba. 
     @pytest.mark.parametrize("model",["librery","myModel"])
-    def test_K_values(self,model):
+    def test_k_values(self,model):
         from sklearn.datasets import load_iris
         iris = load_iris()
 
@@ -166,7 +166,7 @@ class TestGetknn:
 
 
     @pytest.mark.parametrize("model", ["librery", "myModel"])
-    def test_Distance_metric_variation_(self,model):
+    def test_distance_metric_variation(self,model):
         from sklearn.datasets import load_iris
         iris = load_iris()
         k = 3
@@ -200,7 +200,7 @@ class TestGetknn:
     # Si el algoritmo se utiliza para regresión, verificar si los valores predichos son cercanos a los valores reales y si el error es aceptable.
     # Nota esta opción falla si los valores de entrenamientos son pequeños
     @pytest.mark.parametrize("model",["librery","myModel"])
-    def test_Prueba_de_regresión(self,model):
+    def test_prueba_regresion(self,model):
         # Creamos un conjunto de datos de prueba para regresión
         datos_entrenamiento = [[1, 2], [2, 4], [3, 6], [4, 8], [5, 10], [6, 12], [7, 14], [8, 16]]
         etiquetas_entrenamiento = [2, 4, 6, 8, 10, 12, 14, 16]
@@ -219,7 +219,7 @@ class TestGetknn:
 
 
     @pytest.mark.parametrize("model",["librery","myModel"])
-    def test_Performance_test(self,model):
+    def test_performance_test(self,model):
         # Obtenemos todos los dataset
         datasets = getDataSets()
         k=3
@@ -258,5 +258,5 @@ class TestGetknn:
                 writer.writerow([clave, total_time, assert_status])
 
 
-if __name__ == "__main__":
-    pytest.main()
+
+pytest.main()
